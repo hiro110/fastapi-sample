@@ -13,7 +13,6 @@ def read_users():
     users = session.query(UserTable).all()
     return users
 
-# idにマッチするユーザ情報を取得 GET
 @router.get("/users/{user_id}")
 def read_user(user_id: int):
     user = session.query(UserTable).\
@@ -21,8 +20,6 @@ def read_user(user_id: int):
     return user
 
 @router.post("/user")
-# クエリでnameとstrを受け取る
-# /user?name="三郎"&age=10
 async def create_user(name: str, age: int):
     user = UserTable()
     user.name = name
@@ -31,8 +28,6 @@ async def create_user(name: str, age: int):
     session.commit()
 
 @router.put("/users")
-# modelで定義したUserモデルのリクエストbodyをリストに入れた形で受け取る
-# users=[{"id": 1, "name": "一郎", "age": 16},{"id": 2, "name": "二郎", "age": 20}]
 async def update_users(users: List[User]):
     for new_user in users:
         user = session.query(UserTable).\
