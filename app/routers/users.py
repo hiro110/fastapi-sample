@@ -1,14 +1,14 @@
 from typing import List, Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from db import session
-import models
-import schemas
+import models, schemas, middlewares
 
 router = APIRouter()
 
 @router.get("/users")
+@middlewares.preprocessing.sample_decorator()
 def read_users():
     users = session.query(models.User).all()
     return users
