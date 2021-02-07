@@ -6,7 +6,7 @@ from db import ENGINE
 
 # userテーブルのモデルUserTableを定義
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(30), nullable=False)
     age = Column(Integer)
