@@ -8,6 +8,5 @@ class SampleMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         print('--- before ---')
         response = await call_next(request)
-        # response.headers['Custom'] = 'Example'
         print('--- after ---')
         return response
