@@ -1,6 +1,8 @@
-from fastapi import APIRouter
-from db import session
 from typing import Optional
+
+from fastapi import APIRouter
+
+from db import SessionLocal, ENGINE
 
 router = APIRouter()
 

@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from typing import List, Optional
 from starlette.middleware.cors import CORSMiddleware
 
-from db import session
+# from db import Session
 from routers import users, items
 from middlewares import sample
 
