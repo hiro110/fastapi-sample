@@ -1,28 +1,6 @@
 version: "3.8"
 
 services:
-  db:
-    container_name: "sampledb"
-    build: ./backend/docker/mysql
-    restart: always
-    tty: true
-    env_file: .env
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DB}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      TZ: 'Asia/Tokyo'
-    ports:
-      - "13306:13306"
-    volumes:
-      - ./backend/docker/mysql/initdb.d:/docker-entrypoint-initdb.d
-    #   - ./backend/docker/mysql/conf.d:/etc/mysql/conf.
-      - ./backend/docker/mysql/persistent/logs:/var/log/mysql
-      - ./backend/docker/mysql/persistent/data:/var/lib/mysql
-    networks:
-      - local-net
-
   api:
     links:
       - db
@@ -38,7 +16,26 @@ services:
     - ./backend/app:/usr/src/server
     networks:
       - local-net
-
+  db:
+    container_name: "sampledb"
+    build: ./backend/docker/mysql
+    restart: always
+    tty: true
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./backend/docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./backend/docker/mysql/persistent/logs:/var/log/mysql
+      - ./backend/docker/mysql/persistent/data:/var/lib/mysql
+    networks:
+      - local-net
 networks:
   local-net:
     driver: bridge

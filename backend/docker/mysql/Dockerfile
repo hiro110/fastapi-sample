@@ -1,6 +1,6 @@
 FROM mysql:5.7
 
-RUN apt-get update
+# RUN apt update && apt upgrade
 # RUN apt-get install -y vim tzdata && \
 #     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
