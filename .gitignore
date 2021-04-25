@@ -2,3 +2,4 @@ __pycache__
 log
 *.swp
 .env
+backend/docker/mysql/persistent/*
