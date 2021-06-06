@@ -1,10 +1,6 @@
 version: "3.8"
 
 volumes:
-    # volumeはホストにコピー or 表示させないもの
-    #バイナリファイル（node_module）など、OS依存があるもの
-
-    # node_moduleを入れるvolume
     vue-cli-node-volume:
 services:
   front:
@@ -15,11 +11,8 @@ services:
       NODE_ENV: 'development'
     ports:
         - "8080:8080"
-    # restart: always
     volumes:
-        #node_moduleを入れるボリューム
         - vue-cli-node-volume:/app/vue-app/node_modules
-        #コンテナ内の指定ディレクトリをホスト側と同期
         - ./frontend/app:/app
     stdin_open: true
     tty: true
