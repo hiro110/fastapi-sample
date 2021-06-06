@@ -5,7 +5,7 @@ from typing import List, Optional
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from routers import users, items
+from routers import router
 
 app = FastAPI()
 
@@ -17,9 +17,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-app.include_router(users.router)
-app.include_router(items.router)
+app.include_router(router.router)
