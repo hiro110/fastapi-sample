@@ -1,6 +1,21 @@
 version: "3.8"
 
+volumes:
+    vue-cli-node-volume:
 services:
+  front:
+    container_name: "samplefront"
+    build: ./frontend/docker
+    environment:
+      TZ: 'Asia/Tokyo'
+      NODE_ENV: 'development'
+    ports:
+        - "8080:8080"
+    volumes:
+        - vue-cli-node-volume:/app/vue-app/node_modules
+        - ./frontend/app:/app
+    stdin_open: true
+    tty: true
   api:
     links:
       - db
