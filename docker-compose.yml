@@ -1,31 +1,26 @@
-version: "3.3"
+version: "3.8"
 
+volumes:
+    vue-cli-node-volume:
 services:
-  db:
-    container_name: "sampledb"
-    build: ./docker/mysql
-    restart: always
-    tty: true
+  front:
+    container_name: "samplefront"
+    build: ./frontend/docker
     environment:
-      MYSQL_DATABASE: sample_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
       TZ: 'Asia/Tokyo'
+      NODE_ENV: 'development'
     ports:
-      - "3306:3306"
+        - "8080:8080"
     volumes:
-      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
-      - ./docker/mysql/conf.d:/etc/mysql/conf.
-      - ./log/mysql:/var/log/mysql
-    networks:
-      - local-net
-
+        - vue-cli-node-volume:/app/vue-app/node_modules
+        - ./frontend/app:/app
+    stdin_open: true
+    tty: true
   api:
     links:
       - db
     container_name: "sampleapi"
-    build: ./docker/api
+    build: ./backend/docker/api
     env_file:
       - .env
     environment:
@@ -33,11 +28,29 @@ services:
     ports:
       - "8000:8000"
     volumes:
-    #   - ./src:/usr/src/server
-    - ./app:/usr/src/server
+    - ./backend/app:/usr/src/server
     networks:
       - local-net
-
+  db:
+    container_name: "sampledb"
+    build: ./backend/docker/mysql
+    restart: always
+    tty: true
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./backend/docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./backend/docker/mysql/persistent/logs:/var/log/mysql
+      - ./backend/docker/mysql/persistent/data:/var/lib/mysql
+    networks:
+      - local-net
 networks:
   local-net:
     driver: bridge

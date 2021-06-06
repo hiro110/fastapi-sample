@@ -2,3 +2,5 @@ __pycache__
 log
 *.swp
 .env
+backend/docker/mysql/persistent/*
+frontend/app/vue-app/node_modules/*
