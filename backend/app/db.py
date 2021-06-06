@@ -22,3 +22,10 @@ ENGINE = create_engine(DATABASE, encoding="utf-8", echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 
 Base = declarative_base()
+
+def get_db():
+   db = SessionLocal()
+   try:
+       yield db
+   finally:
+       db.close()
