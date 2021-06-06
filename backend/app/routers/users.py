@@ -3,17 +3,10 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from db import SessionLocal, ENGINE
+from db import SessionLocal, ENGINE, get_db
 import models, schemas, middlewares, crud
 
 router = APIRouter()
-
-def get_db():
-   db = SessionLocal()
-   try:
-       yield db
-   finally:
-       db.close()
 
 @router.get("/users")
 @middlewares.preprocessing.sample_decorator()
@@ -21,11 +14,11 @@ def read_users(db: Session = Depends(get_db)):
     return crud.get_users(db)
 
 @router.post("/user")
-async def create_user(user: schemas.User, db: Session = Depends(get_db)):
+async def create_user(user: schemas.UserSchema, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 # @router.put("/users")
-# async def update_users(users: List[schemas.User]):
+# async def update_users(users: List[schemas.UserSchema]):
 #     for new_user in users:
 #         user = session.query(models.User).\
 #             filter(models.User.id == new_user.id).first()

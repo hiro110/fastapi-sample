@@ -8,7 +8,7 @@ def get_user(db: Session, user_id: int):
 def get_users(db: Session):
     return db.query(models.User).all()
 
-def create_user(db: Session, user: schemas.User):
+def create_user(db: Session, user: schemas.UserSchema):
     user = models.User()
     user.name = name
     user.age = age
